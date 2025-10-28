@@ -15,7 +15,7 @@ from bempp_cl.api.operators.boundary import common as _common
 def single_layer(
     domain,
     range_,
-    dual_to_range,https://github.com/bempp/bempp-cl
+    dual_to_range,
     parameters=None,
     assembler="default_nonlocal",
     device_interface=None,
