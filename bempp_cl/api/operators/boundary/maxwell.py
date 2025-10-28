@@ -5,6 +5,91 @@ import numpy as _np
 from bempp_cl.api.operators.boundary import common as _common
 
 
+
+
+
+# ----------------------------------------------------------------------------#
+# BEGIN -------- Vector Single Layer -----------------------------------------#
+# ----------------------------------------------------------------------------#
+
+def single_layer(
+    domain,
+    range_,
+    dual_to_range,https://github.com/bempp/bempp-cl
+    parameters=None,
+    assembler="default_nonlocal",
+    device_interface=None,
+    precision=None,
+):
+    """Assemble the single layer boundary operator."""
+    if domain.identifier != "rwg0":
+        raise ValueError("Domain space must be an RWG type function space.")
+
+    if dual_to_range.identifier != "snc0":
+        raise ValueError("Dual to range space must be an SNC type function space.")
+
+    return _common.create_operator(
+        "maxwell_static_single_layer_boundary",
+        domain,
+        range_,
+        dual_to_range,
+        parameters,
+        assembler,
+        [],
+        "laplace_single_layer",
+        "maxwell_single_layer",
+        device_interface,
+        precision,
+        False, 
+    )
+
+# ----------------------------------------------------------------------------#
+# END ---------- Vector Single Layer -----------------------------------------# 
+# ----------------------------------------------------------------------------#
+
+
+
+# ----------------------------------------------------------------------------#
+# BEGIN -------- Magnetic Field k = 0 ----------------------------------------#
+# ----------------------------------------------------------------------------#
+
+
+def double_layer(
+    domain,
+    range_,
+    dual_to_range,
+    parameters=None,
+    assembler="default_nonlocal",
+    device_interface=None,
+    precision=None,
+):
+    """Assemble the magnetic field boundary operator."""
+    if domain.identifier != "rwg0":
+        raise ValueError("Domain space must be an RWG type function space.")
+
+    if dual_to_range.identifier != "snc0":
+        raise ValueError("Dual to range space must be an SNC type function space.")
+
+    return _common.create_operator(
+        "maxwell_static_double_layer_boundary",
+        domain,
+        range_,
+        dual_to_range,
+        parameters,
+        assembler,
+        [],
+        "laplace_single_layer",
+        "maxwell_double_layer",
+        device_interface,
+        precision,
+        False,
+    )
+
+# ----------------------------------------------------------------------------#
+# END ---------- Magnetic Field k = 0 ----------------------------------------# 
+# ----------------------------------------------------------------------------#
+
+
 def electric_field(
     domain,
     range_,
