@@ -2216,7 +2216,6 @@ def maxwell_single_layer_singular(
     trial_edge_lengths = get_edge_lengths(grid_data, trial_elements)
 
     for index in _numba.prange(nelements):
-        wavenumber = kernel_parameters[0] + 1j * kernel_parameters[1]
         test_element = test_elements[index]
         trial_element = trial_elements[index]
         test_offset = test_offsets[index]
@@ -2386,7 +2385,6 @@ def maxwell_double_layer_singular(
     trial_edge_lengths = get_edge_lengths(grid_data, trial_elements)
 
     for index in _numba.prange(nelements):
-        wavenumber = kernel_parameters[0] + 1j * kernel_parameters[1]
         test_element = test_elements[index]
         trial_element = trial_elements[index]
         test_offset = test_offsets[index]
@@ -2599,8 +2597,7 @@ def maxwell_double_layer_regular(
     trial_shapeset,
     result,
 ):
-    """Evaluate Maxwell magnetic field kernel."""
-    wavenumber = kernel_parameters[0] + 1j * kernel_parameters[1]
+    """Evaluate Maxwell Static Double Layer kernel."""
     dtype = test_grid_data.vertices.dtype
     result_type = result.dtype
     n_quad_points = len(quad_weights)
