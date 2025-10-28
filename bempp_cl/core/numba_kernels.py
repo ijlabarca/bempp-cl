@@ -15,8 +15,8 @@ def select_numba_kernels(operator_descriptor, mode="regular"):
         "modified_helmholtz_hypersingular": modified_helmholtz_hypersingular_singular,
         "maxwell_electric_field": maxwell_efield_singular,
         "maxwell_magnetic_field": maxwell_mfield_singular,
-        "maxwell_single_layer": maxwell_single_layer_singular, #
-        "maxwell_double_layer": maxwell_double_layer_singular, #
+        "maxwell_single_layer": maxwell_single_layer_singular,  #
+        "maxwell_double_layer": maxwell_double_layer_singular,  #
     }
 
     assembly_functions_regular = {
@@ -26,9 +26,8 @@ def select_numba_kernels(operator_descriptor, mode="regular"):
         "modified_helmholtz_hypersingular": modified_helmholtz_hypersingular_regular,
         "maxwell_electric_field": maxwell_efield_regular_assembler,
         "maxwell_magnetic_field": maxwell_mfield_regular_assembler,
-        "maxwell_single_layer": maxwell_single_layer_regular, #
-        "maxwell_double_layer": maxwell_double_layer_regular, #
-        
+        "maxwell_single_layer": maxwell_single_layer_regular,  #
+        "maxwell_double_layer": maxwell_double_layer_regular,  #
     }
     assembly_function_potential = {
         "default_scalar": default_scalar_potential_kernel,
@@ -1974,10 +1973,6 @@ def maxwell_efield_regular_assembler(
                     )
 
 
-
-
-
-
 @_numba.jit(nopython=True, parallel=True, error_model="numpy", fastmath=True, boundscheck=False)
 def maxwell_single_layer_regular(
     test_grid_data,
@@ -2002,7 +1997,6 @@ def maxwell_single_layer_regular(
     result,
 ):
     """Evaluate Maxwell Static Single Layer kernel."""
-
 
     # The only changes: erase divergence-product and remove wavenumber-weights
     result_type = result.dtype
@@ -2073,7 +2067,7 @@ def maxwell_single_layer_regular(
                                         :,
                                         quad_point_index,
                                     ]
-                                )   
+                                )
                             )
 
         for trial_element_index in range(n_trial_elements):
@@ -2090,7 +2084,6 @@ def maxwell_single_layer_regular(
                         * test_edge_lengths[i, test_fun_index]
                         * trial_edge_lengths[trial_element_index, trial_fun_index]
                     )
-
 
 
 @_numba.jit(nopython=True, parallel=True, error_model="numpy", fastmath=True, boundscheck=False)
@@ -2185,8 +2178,6 @@ def maxwell_efield_singular(
                 )
 
 
-
-
 @_numba.jit(nopython=True, parallel=True, error_model="numpy", fastmath=True, boundscheck=False)
 def maxwell_single_layer_singular(
     grid_data,
@@ -2254,10 +2245,8 @@ def maxwell_single_layer_singular(
                     result[nshape_trial * nshape_test * index + test_fun_index * nshape_trial + trial_fun_index] += (
                         kernel_values[point_index]
                         * (
-                             (
-                                test_fun_values[test_fun_index, :, point_index].dot(
-                                    trial_fun_values[trial_fun_index, :, point_index]
-                                )
+                            test_fun_values[test_fun_index, :, point_index].dot(
+                                trial_fun_values[trial_fun_index, :, point_index]
                             )
                         )
                         * quad_weights[weights_offset + point_index]
@@ -2267,7 +2256,6 @@ def maxwell_single_layer_singular(
                 result[nshape_trial * nshape_test * index + test_fun_index * nshape_trial + trial_fun_index] *= (
                     grid_data.integration_elements[test_element] * grid_data.integration_elements[trial_element]
                 )
-
 
 
 @_numba.jit(nopython=True, parallel=True, error_model="numpy", fastmath=True, boundscheck=False)
@@ -2441,7 +2429,6 @@ def maxwell_double_layer_singular(
                 )
 
 
-
 @_numba.jit(nopython=True, parallel=True, error_model="numpy", fastmath=True, boundscheck=False)
 def maxwell_mfield_regular_assembler(
     test_grid_data,
@@ -2570,8 +2557,6 @@ def maxwell_mfield_regular_assembler(
                         * test_edge_lengths[i, test_fun_index]
                         * trial_edge_lengths[trial_element_index, trial_fun_index]
                     )
-
-
 
 
 @_numba.jit(nopython=True, parallel=True, error_model="numpy", fastmath=True, boundscheck=False)
